@@ -1,8 +1,32 @@
 import { Sheet } from "react-modal-sheet"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 function SessionBox({ isOpen, setOpen }) {
   const [text, setText] = useState("")
+  const [ALIPAYJSESSIONID, setALIPAYJESSIONID] = useState("")
+
+  const regex = /GZ00[a-zA-Z0-9]{32}danabizpluginGZ00/g
+
+  const addSession = (ALIPAYJSESSIONID) => {
+    try {
+      console.log("📢[:12]: ", ALIPAYJSESSIONID)
+      setOpen(false)
+    } catch (error) {
+      console.log("📢[:15]: ", error)
+    }
+  }
+
+  useEffect(() => {
+    if (!text) return setALIPAYJESSIONID("INPUT ALIPAYJSESSIONID")
+
+    setALIPAYJESSIONID("NOT FOUND")
+
+    const match = text.match(regex)
+
+    if (match) {
+      setALIPAYJESSIONID(match[0])
+    }
+  }, [text])
 
   return (
     <Sheet isOpen={isOpen} onClose={() => setOpen(false)} disableDrag={true} detent="content-height" avoidKeyboard={false}>
@@ -11,10 +35,12 @@ function SessionBox({ isOpen, setOpen }) {
         <Sheet.Header className="flex flex-row rounded-t-lg py-2">
           <div className="flex flex-col justify-center items-start px-3">
             <p className="m-0 p-0 text-sm font-bold">ADD SESSIONS</p>
-            <p className="m-0 p-0 text-[9px]">ALIPAYJSESSIONID</p>
+            <p className={`m-0 p-0 text-white text-[9px] ${ALIPAYJSESSIONID === "NOT FOUND" ? "text-red-600 font-bold" : text && ALIPAYJSESSIONID ? "text-green-500 font-bold" : ""}`}>
+              {ALIPAYJSESSIONID || "INPUT ALIPAYJSESSIONID"}
+            </p>
           </div>
           <div className="flex flex-1 justify-end rounded-lg px-3 py-1 gap-6">
-            <div className="flex items-center justify-center">
+            <div className={`flex items-center justify-center ${ALIPAYJSESSIONID && ALIPAYJSESSIONID !== "NOT FOUND" ? "!block" : "!hidden"}`} onClick={() => addSession(ALIPAYJSESSIONID)}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 hover:text-green-500">
                 <path
                   fillRule="evenodd"
@@ -25,7 +51,16 @@ function SessionBox({ isOpen, setOpen }) {
             </div>
 
             <div className="flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 hover:text-yellow-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="size-6 hover:text-yellow-500"
+                onClick={() => {
+                  setText("")
+                  setALIPAYJESSIONID("")
+                }}
+              >
                 <path
                   fillRule="evenodd"
                   d="M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z"
