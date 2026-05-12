@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 export default function Navbar() {
   return (
     <>
-      <div className="fixed bottom-0 left-0 w-full bg-neutral-800 md:p-1 p-2 shadow-xl shadow-stone-500 rounded-t-xl ">
+      <div className="fixed bottom-0 left-0 w-full bg-neutral-800 md:p-1 p-2 shadow-xl shadow-white rounded-t-xl">
         <div className="flex justify-around md:justify-start md:gap-6 items-center md:px-4">
           <a href="/" className="flex flex-col items-center text-white hover:text-yellow-500">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5 md:size-4">

@@ -1,28 +1,24 @@
-import CardSession from "../components/one/session/CardSession.jsx"
+import { useEffect, useState } from "react"
 
-function CardRecommend() {
-  return (
-    <div className="flex flex-col justify-center items-center snap-start shrink-0 w-[120px] md:w-[200px] gap-1">
-      <img
-        src="https://dthezntil550i.cloudfront.net/qe/latest/qe2001070444226870012184583/1280_960/f0c37cde-9689-4234-a284-a239110170cf.png"
-        alt=""
-        className="w-full h-full aspect-square rounded-lg"
-      />
-      <div className="w-full">
-        <p className="text-[0.8rem] font-bold truncate">O P A N K</p>
-        <p className="text-[0.7rem]">1731 subsribers</p>
-      </div>
-    </div>
-  )
-}
+import CardRecommend from "../components/one/CardRecommend.jsx"
+import CardSession from "../components/one/CardSession.jsx"
+import SheetUser from "../components/one/SheetUser.jsx"
 
 export default function One() {
+  const [isOpen, setOpen] = useState(false)
+
+  useEffect(() => {
+    document.title = "OPANK HOME"
+  }, [])
+
   return (
     <>
-      <div className="flex flex-col gap-4 px-2">
+      <SheetUser isOpen={isOpen} setOpen={setOpen} />
+
+      <div className="flex flex-col gap-5 px-2">
         {/* RECOMMENDED GROUP */}
 
-        <div className="flex flex-row gap-3 overflow-x-auto snap-x scrollbar-hide">
+        <div className="flex flex-row gap-2 overflow-x-auto snap-x scrollbar-hide">
           <CardRecommend />
           <CardRecommend />
           <CardRecommend />
@@ -56,19 +52,21 @@ export default function One() {
               </svg>
             </div>
 
-            <p className="text-sm font-bold">30 USER REGISTERED</p>
+            <p className="text-[0.75rem] font-bold">30 USER REGISTERED</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-1">
-            <CardSession name="GILANG IDUL FITRI" alias="081295026951" role="admin" room="gilang" balance="1.099.000" />
-            <CardSession name="GILANG IDUL FITRI" alias="081295026951" role="admin" room="gilang" balance="1.099.000" />
-            <CardSession name="GILANG IDUL FITRI" alias="081295026951" role="admin" room="gilang" balance="1.099.000" />
-            <CardSession name="GILANG IDUL FITRI" alias="081295026951" role="admin" room="gilang" balance="1.099.000" />
-            <CardSession name="GILANG IDUL FITRI" alias="081295026951" role="admin" room="gilang" balance="1.099.000" />
-            <CardSession name="GILANG IDUL FITRI" alias="081295026951" role="admin" room="gilang" balance="1.099.000" />
+            <CardSession name="GILANG IDUL FITRI" alias="081295026951" role="admin" room="gilang" balance="1.099.000" setOpen={setOpen} />
+            <CardSession name="GILANG IDUL FITRI" alias="081295026951" role="admin" room="gilang" balance="1.099.000" setOpen={setOpen} />
+            <CardSession name="GILANG IDUL FITRI" alias="081295026951" role="admin" room="gilang" balance="1.099.000" setOpen={setOpen} />
+            <CardSession name="GILANG IDUL FITRI" alias="081295026951" role="admin" room="gilang" balance="1.099.000" setOpen={setOpen} />
+            <CardSession name="GILANG IDUL FITRI" alias="081295026951" role="admin" room="gilang" balance="1.099.000" setOpen={setOpen} />
+            <CardSession name="GILANG IDUL FITRI" alias="081295026951" role="admin" room="gilang" balance="1.099.000" setOpen={setOpen} />
           </div>
         </div>
+
         {/* DEVICE SESSION */}
+
         <div className="flex flex-col gap-3">
           <div className="flex flex-row items-center">
             <div className="px-2">
@@ -82,7 +80,7 @@ export default function One() {
               </svg>
             </div>
 
-            <p className="text-sm font-bold">8 DEVICE CONNECTED</p>
+            <p className="text-[0.75rem] font-bold">8 DEVICE CONNECTED</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-1">

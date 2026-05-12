@@ -1,7 +1,7 @@
 import { useState } from "react"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate, Outlet } from "react-router-dom"
 
-import { useStore } from "./store/store"
+import { useUserStore } from "./store/user.js"
 
 import reactLogo from "./assets/react.svg"
 import viteLogo from "./assets/vite.svg"
@@ -17,19 +17,42 @@ import Five from "./pages/Five.jsx"
 
 import "./App.css"
 
+function Protected() {
+  const accessToken = useUserStore((state) => state.accessToken)
+
+  if (!accessToken) {
+    return <Navigate to="/login" replace />
+  }
+
+  return <Outlet />
+}
+
+function Guest() {
+  const accessToken = useUserStore((state) => state.accessToken)
+
+  if (accessToken) {
+    return <Navigate to="/" replace />
+  }
+
+  return <Outlet />
+}
+
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route element={<Layout />}>
-        <Route path="/" element={<One />} />
-        <Route path="/chats" element={<Two />} />
-        <Route path="/monitor" element={<Three />} />
-        <Route path="/claims" element={<Four />} />
-        <Route path="/groups" element={<Five />} />
+      <Route element={<Guest />}>
+        <Route path="/login" element={<Login />} />
       </Route>
 
-      {/* <Route path="*" element={<NotFound />} /> */}
+      <Route element={<Protected />}>
+        <Route element={<Layout />}>
+          <Route path="/" element={<One />} />
+          <Route path="/chats" element={<Two />} />
+          <Route path="/monitor" element={<Three />} />
+          <Route path="/claims" element={<Four />} />
+          <Route path="/groups" element={<Five />} />
+        </Route>
+      </Route>
     </Routes>
   )
 }

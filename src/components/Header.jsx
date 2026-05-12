@@ -1,18 +1,25 @@
 import { Sheet } from "react-modal-sheet"
 import { useEffect, useRef, useState } from "react"
 
+import { useUserStore } from "../store/user.js"
+import { API_1, DEFAULT_IMAGE_PROFILE } from "../config.js"
+
+import axios from "axios"
+
 function SessionBox({ isOpen, setOpen }) {
   const [text, setText] = useState("")
   const [ALIPAYJSESSIONID, setALIPAYJESSIONID] = useState("")
 
+  const accessToken = useUserStore((state) => state.accessToken)
   const regex = /GZ00[a-zA-Z0-9]{32}danabizpluginGZ00/g
 
-  const addSession = (ALIPAYJSESSIONID) => {
+  const addSession = async (ALIPAYJSESSIONID) => {
     try {
-      console.log("📢[:12]: ", ALIPAYJSESSIONID)
+      const { data } = await axios.post(API_1 + "/sessions/add", { ALIPAYJSESSIONID }, { headers: { Authorization: `Bearer ${accessToken}` } })
+
       setOpen(false)
     } catch (error) {
-      console.log("📢[:15]: ", error)
+      console.log("📢[:15]: ", error.response.data)
     }
   }
 
@@ -96,6 +103,8 @@ function SessionBox({ isOpen, setOpen }) {
 export default function Header() {
   const [isOpen, setOpen] = useState(false)
 
+  const { name, alias, username, room, role, avatar } = useUserStore((state) => state)
+
   return (
     <>
       <SessionBox isOpen={isOpen} setOpen={setOpen} />
@@ -105,14 +114,18 @@ export default function Header() {
             <div className="flex justify-center items-center gap-3">
               <div className="flex items-center justify-center ml-1">
                 <img
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt=""
+                  src={avatar || DEFAULT_IMAGE_PROFILE}
+                  alt={avatar || DEFAULT_IMAGE_PROFILE}
+                  onError={(e) => {
+                    e.target.onerror = null
+                    e.target.src = DEFAULT_IMAGE_PROFILE
+                  }}
                   className="size-8 rounded-full border-2 bg-gray-800 outline -outline-offset-1 outline-white/10"
                 />
               </div>
               <div className="flex flex-col flex-1 justify-center">
-                <h1 className="text-white text-sm font-bold">Hi, Gilang Idul Fitri</h1>
-                <p className="text-gray-300 text-[11px]">user role device</p>
+                <h1 className="text-white text-sm font-bold">HI, {name}</h1>
+                <p className="text-gray-300 text-[11px]">{room} community</p>
               </div>
             </div>
 
