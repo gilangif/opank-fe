@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom"
 
 import Navbar from "../components/Navbar"
 import Header from "../components/Header"
+import Popup from "../components/Popup.jsx"
 
 export default function Layout() {
   return (
@@ -15,6 +16,8 @@ export default function Layout() {
         <Navbar />
 
         <main className="flex-1 overflow-auto pb-[150px]">
+          <Popup />
+
           <Outlet />
         </main>
       </div>

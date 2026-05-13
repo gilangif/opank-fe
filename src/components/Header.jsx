@@ -2,6 +2,7 @@ import { Sheet } from "react-modal-sheet"
 import { useEffect, useRef, useState } from "react"
 
 import { useUserStore } from "../store/user.js"
+import { useSessionStore } from "../store/session.js"
 import { API_1, DEFAULT_IMAGE_PROFILE } from "../config.js"
 
 import axios from "axios"
@@ -10,16 +11,23 @@ function SessionBox({ isOpen, setOpen }) {
   const [text, setText] = useState("")
   const [ALIPAYJSESSIONID, setALIPAYJESSIONID] = useState("")
 
-  const accessToken = useUserStore((state) => state.accessToken)
+  const { accessToken } = useUserStore((state) => state)
+  const { sessions, addSession, getSessions } = useSessionStore((state) => state)
+
   const regex = /GZ00[a-zA-Z0-9]{32}danabizpluginGZ00/g
 
-  const addSession = async (ALIPAYJSESSIONID) => {
+  const handleAddSession = async () => {
     try {
-      const { data } = await axios.post(API_1 + "/sessions/add", { ALIPAYJSESSIONID }, { headers: { Authorization: `Bearer ${accessToken}` } })
-
       setOpen(false)
+
+      const { data, message, user } = await addSession(ALIPAYJSESSIONID)
+      console.log("📢[:24]: ", data)
+      console.log("📢[:24]: ", message)
+      console.log("📢[:24]: ", user)
+
+      await getSessions()
     } catch (error) {
-      console.log("📢[:15]: ", error.response.data)
+      console.log("📢[:24]: ", error)
     }
   }
 
@@ -47,7 +55,7 @@ function SessionBox({ isOpen, setOpen }) {
             </p>
           </div>
           <div className="flex flex-1 justify-end rounded-lg px-3 py-1 gap-6">
-            <div className={`flex items-center justify-center ${ALIPAYJSESSIONID && ALIPAYJSESSIONID !== "NOT FOUND" ? "!block" : "!hidden"}`} onClick={() => addSession(ALIPAYJSESSIONID)}>
+            <div className={`flex items-center justify-center ${text && ALIPAYJSESSIONID && ALIPAYJSESSIONID !== "NOT FOUND" ? "!block" : "!hidden"}`} onClick={() => handleAddSession()}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 hover:text-green-500">
                 <path
                   fillRule="evenodd"
