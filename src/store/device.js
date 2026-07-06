@@ -11,7 +11,7 @@ export const useDeviceStore = create((set) => ({
 
   disconnectSocket: async (username) => {
     const { accessToken } = useUserStore.getState()
-    const { data } = await axios.post(API_1 + "/socket/disconnect/username", { headers: { Authorization: `Bearer ${accessToken}` } }, { username })
+    const { data } = await axios.post(API_1 + "/socket/disconnect/username", { username }, { headers: { Authorization: `Bearer ${accessToken}` } })
 
     return data
   },

@@ -1,5 +1,7 @@
 import { DEFAULT_IMAGE } from "../../config.js"
 
+
+
 export default function CardSession({ name, alias, role, room, balance, avatar, status, data, setSessionData, setSheetSessionOpen }) {
   const handleUserSheet = () => {
     setSessionData(data)

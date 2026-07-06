@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react"
 
 import { useUserStore } from "../store/user.js"
 import { useSessionStore } from "../store/session.js"
+import { usePopupStore } from "../store/popup.js"
 import { API_1, DEFAULT_IMAGE_PROFILE } from "../config.js"
 
 import axios from "axios"
@@ -10,6 +11,8 @@ import axios from "axios"
 function SessionBox({ isOpen, setOpen }) {
   const [text, setText] = useState("")
   const [ALIPAYJSESSIONID, setALIPAYJESSIONID] = useState("")
+
+  const { showPopup, closePopup } = usePopupStore((state) => state)
 
   const { accessToken } = useUserStore((state) => state)
   const { sessions, addSession, getSessions } = useSessionStore((state) => state)
@@ -25,9 +28,14 @@ function SessionBox({ isOpen, setOpen }) {
       console.log("📢[:24]: ", message)
       console.log("📢[:24]: ", user)
 
+      showPopup("SESSIONS UPDATED", message)
+
       await getSessions()
     } catch (error) {
-      console.log("📢[:24]: ", error)
+      console.log("📢[:33]: ", error)
+      const message = error?.response?.data?.message || error?.message || "UNKNOWN ERROR MESSAGE"
+
+      showPopup("ADD SESSION FAILED", message)
     }
   }
 
