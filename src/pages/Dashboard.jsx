@@ -124,7 +124,7 @@ export default function Dashboard() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-2">
             {onlines.map((online, i) => {
-              const { id, name, alias, username, role, room, avatar, created_at, updated_at, socket_id, start } = online
+              const { id, name, alias, username, role, room, uid, mode, avatar, created_at, updated_at, socket_id, start } = online
 
               return (
                 <CardDevice
@@ -136,6 +136,8 @@ export default function Dashboard() {
                   start={start}
                   socket_id={socket_id}
                   avatar={avatar}
+                  uid={uid}
+                  mode={mode}
                   data={online}
                   setDeviceData={setDeviceData}
                   setSheetDeviceOpen={setSheetDeviceOpen}

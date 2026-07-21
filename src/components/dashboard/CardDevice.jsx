@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { DEFAULT_IMAGE } from "../../config.js"
 
-export default function CardDevice({ name, alias, role, room, start, socket_id, avatar, data, setDeviceData, setSheetDeviceOpen }) {
+export default function CardDevice({ name, alias, role, room, start, socket_id, uid, mode, avatar, data, setDeviceData, setSheetDeviceOpen }) {
   const [duration, setDuration] = useState("")
 
   const handleUserSheet = () => {
@@ -45,7 +45,7 @@ export default function CardDevice({ name, alias, role, room, start, socket_id, 
         </div>
         <div>
           <p className="text-[10px] hover:text-yellow-300">
-            {role} {room}
+            {role} {room} {uid} {mode}
           </p>
           <p className="text-[10px] hover:text-yellow-300">TIME {duration}s</p>
         </div>
