@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { DEFAULT_IMAGE } from "../../config.js"
 
-export default function CardDevice({ name, alias, role, room, start_time, socket_id, avatar, data, setDeviceData, setSheetDeviceOpen }) {
+export default function CardDevice({ name, alias, role, room, start, socket_id, avatar, data, setDeviceData, setSheetDeviceOpen }) {
   const [duration, setDuration] = useState("")
 
   const handleUserSheet = () => {
@@ -11,7 +11,7 @@ export default function CardDevice({ name, alias, role, room, start_time, socket
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const c = new Date() - new Date(start_time)
+      const c = new Date() - new Date(start)
 
       const h = Math.floor(c / (1000 * 60 * 60))
       const m = Math.floor((c % (1000 * 60 * 60)) / (1000 * 60))
@@ -21,7 +21,7 @@ export default function CardDevice({ name, alias, role, room, start_time, socket
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [start_time])
+  }, [start])
 
   return (
     <div className="flex flex-row h-[76px] p-1 gap-2 hover:bg-gray-100/20 transition duration-700 ease-in-out rounded-lg">
