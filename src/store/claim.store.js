@@ -8,10 +8,10 @@ import axios from "axios"
 export const useClaimStore = create((set) => ({
   logs: [],
 
-  getLogs: async () => {
+  getLogs: async (params) => {
     try {
       const { room, accessToken } = useUserStore.getState()
-      const { data } = await axios.get(API_1 + "/claims/orders", { headers: { Authorization: `Bearer ${accessToken}` } })
+      const { data } = await axios.get(API_1 + "/claims/orders", { headers: { Authorization: `Bearer ${accessToken}` }, params })
 
       set({ logs: data.rows })
     } catch (error) {
