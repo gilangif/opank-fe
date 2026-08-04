@@ -25,10 +25,6 @@ export default function Dashboard() {
   const { onlines, offlines, getDevices } = useDeviceStore((state) => state)
 
   useEffect(() => {
-    console.log(onlines)
-  }, [onlines])
-
-  useEffect(() => {
     document.title = "OPANK HOME"
 
     getSessions()
@@ -37,7 +33,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <SheetSession isOpen={isSheetSessionOpen} setOpen={setSheetSessionOpen} data={sessionData} />
+      <SheetSession isOpen={isSheetSessionOpen} setOpen={setSheetSessionOpen} data={sessionData} setData={setSessionData} />
       <SheetDevice isOpen={isSheetDeviceOpen} setOpen={setSheetDeviceOpen} data={deviceData} />
 
       <div className="flex flex-col gap-5 px-2">

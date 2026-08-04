@@ -56,15 +56,16 @@ function SessionBox({ isOpen, setOpen }) {
       <Sheet.Backdrop onTap={() => setOpen(false)} className="!bg-black/20 backdrop-blur-sm" />
       <Sheet.Container className="!bg-neutral-800 !text-white">
         <Sheet.Header className="flex flex-row rounded-t-lg py-2">
-          <div className="flex flex-col justify-center items-start px-3">
+          <div className="flex flex-col justify-center items-start px-3 gap-1">
             <p className="m-0 p-0 text-sm font-bold">ADD SESSIONS</p>
-            <p className={`m-0 p-0 text-white text-[9px] ${ALIPAYJSESSIONID === "NOT FOUND" ? "text-red-600 font-bold" : text && ALIPAYJSESSIONID ? "text-green-500 font-bold" : ""}`}>
+            <p className={`m-0 p-0 text-white text-[0.6rem] ${ALIPAYJSESSIONID === "NOT FOUND" ? "text-red-600 font-bold" : text && ALIPAYJSESSIONID ? "text-green-500 font-bold" : ""}`}>
               {ALIPAYJSESSIONID || "INPUT ALIPAYJSESSIONID"}
             </p>
           </div>
-          <div className="flex flex-1 justify-end rounded-lg px-3 py-1 gap-6">
+
+          <div className="flex flex-1 justify-end rounded-lg px-5 py-1 gap-5">
             <div className={`flex items-center justify-center ${text && ALIPAYJSESSIONID && ALIPAYJSESSIONID !== "NOT FOUND" ? "!block" : "!hidden"}`} onClick={() => handleAddSession()}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 hover:text-green-500">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="sizw-7 hover:text-green-500">
                 <path
                   fillRule="evenodd"
                   d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
@@ -78,7 +79,7 @@ function SessionBox({ isOpen, setOpen }) {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className="size-6 hover:text-yellow-500"
+                className="size-7 hover:text-yellow-500"
                 onClick={() => {
                   setText("")
                   setALIPAYJESSIONID("")
@@ -93,7 +94,7 @@ function SessionBox({ isOpen, setOpen }) {
             </div>
 
             <div className="flex items-center justify-center" onClick={() => setOpen(false)}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 hover:text-red-500">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-7 hover:text-red-500">
                 <path
                   fillRule="evenodd"
                   d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
@@ -105,10 +106,12 @@ function SessionBox({ isOpen, setOpen }) {
         </Sheet.Header>
         <Sheet.Content className="p-2 border-0">
           <textarea
-            placeholder="Paste sessions here..."
-            className="w-full h-[30vh] rounded-lg border border-neutral-600 bg-neutral-900 p-2 text-[0.7rem] text-white placeholder:text-white-500 outline-none focus:border-yellow-500"
-            value={text}
+            id="message"
+            rows="4"
+            class="w-full h-[40vh]  border border-default-medium  text-black text-sm rounded-base focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-white"
+            placeholder="Paste sessions here.."
             onChange={(e) => setText(e.target.value)}
+            value={text}
           />
         </Sheet.Content>
       </Sheet.Container>

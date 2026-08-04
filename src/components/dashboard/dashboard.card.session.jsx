@@ -9,8 +9,8 @@ export default function CardSession({ name, alias, role, room, balance, avatar, 
   const status_bg = status === "invalid" ? "bg-yellow-400/20 hover:bg-yellow-400/80 active:bg-yellow-400/80" : status === "Unauthorized" ? "bg-red-900/40 hover:bg-red-900/80 active:bg-red-900/80" : "hover:bg-gray-100/20 active:bg-gray-100/20"
 
   return (
-    <div className={`flex flex-row h-[76px] p-1 gap-2 ${status_bg} transition duration-700 ease-in-out rounded-lg`}>
-      <div className="flex justify-center items-center rounded-lg aspect-square">
+    <div className={`flex flex-row h-[76px] p-1 gap-2 ${status_bg} transition duration-700 ease-in-out rounded-base`}>
+      <div className="flex justify-center items-center rounded-base aspect-square">
         <img
           src={avatar || DEFAULT_IMAGE}
           alt=""
@@ -19,7 +19,7 @@ export default function CardSession({ name, alias, role, room, balance, avatar, 
             e.target.onerror = null
             e.target.src = DEFAULT_IMAGE
           }}
-          className="w-full h-full object-cover rounded-lg border-[1px] border-gray-500 hover:border-yellow-500/80"
+          className="w-full h-full object-cover rounded-base border-[1px] border-gray-500 hover:border-yellow-500/80 active:border-yellow-500/80"
         />
       </div>
 

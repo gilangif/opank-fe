@@ -10,7 +10,7 @@ import { useSessionStore } from "../../store/session.store.js"
 
 import SheetAction from "./dashboard.sheet.action.jsx"
 
-export default function SheetSession({ isOpen, setOpen, data }) {
+export default function SheetSession({ isOpen, setOpen, data, setData }) {
   const { removeSession, checkSession, getSessions } = useSessionStore((state) => state)
   const { showPopup, closePopup } = usePopupStore((state) => state)
 
@@ -37,6 +37,7 @@ export default function SheetSession({ isOpen, setOpen, data }) {
     try {
       const session = await checkSession(id)
 
+      setData(session)
       setNote(JSON.stringify(session, null, 2))
     } catch (error) {
       const { response } = error || {}

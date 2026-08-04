@@ -81,6 +81,8 @@ export default function Claims() {
     if (search) params.search = search
 
     getLogs(params)
+
+    document.title = "OPANK CLAIMS LOGS"
   }, [searchParams])
 
   return (
