@@ -1,7 +1,7 @@
 import { create } from "zustand"
 
 import { API_1 } from "../config.js"
-import { useUserStore } from "./user.js"
+import { useUserStore } from "./user.store.js"
 
 import axios from "axios"
 

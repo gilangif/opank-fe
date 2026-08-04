@@ -1,9 +1,9 @@
 import { Sheet } from "react-modal-sheet"
 import { useEffect, useRef, useState } from "react"
 
-import { useUserStore } from "../store/user.js"
-import { useSessionStore } from "../store/session.js"
-import { usePopupStore } from "../store/popup.js"
+import { useUserStore } from "../store/user.store.js"
+import { useSessionStore } from "../store/session.store.js"
+import { usePopupStore } from "../store/popup.store.js"
 import { API_1, DEFAULT_IMAGE_PROFILE } from "../config.js"
 
 import axios from "axios"

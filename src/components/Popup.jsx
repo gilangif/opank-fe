@@ -1,4 +1,4 @@
-import { usePopupStore } from "../store/popup"
+import { usePopupStore } from "../store/popup.store"
 
 export default function Popup() {
   const { open, title, detail, closePopup } = usePopupStore()

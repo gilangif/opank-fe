@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react"
 
-import { useUserStore } from "../store/user.js"
-import { usePopupStore } from "../store/popup.js"
-import { useSessionStore } from "../store/session.js"
-import { useDeviceStore } from "../store/device.js"
+import { useUserStore } from "../store/user.store.js"
+import { usePopupStore } from "../store/popup.store.js"
+import { useSessionStore } from "../store/session.store.js"
+import { useDeviceStore } from "../store/device.store.js"
 
-import CardRecommend from "../components/dashboard/CardRecommend.jsx"
-import CardSession from "../components/dashboard/CardSession.jsx"
-import CardDevice from "../components/dashboard/CardDevice.jsx"
-import SheetSession from "../components/dashboard/SheetSession.jsx"
-import SheetDevice from "../components/dashboard/SheetDevice.jsx"
+import CardRecommend from "../components/dashboard/dashboard.card.recommend.jsx"
+import CardSession from "../components/dashboard/dashboard.card.session.jsx"
+import CardDevice from "../components/dashboard/dashboard.card.action.jsx"
+import SheetSession from "../components/dashboard/dashboard.sheet.session.jsx"
+import SheetDevice from "../components/dashboard/dashboard.sheet.device.jsx"
 
 import axios from "axios"
 
@@ -80,7 +80,7 @@ export default function Dashboard() {
             <p className="text-[0.75rem] font-bold">{sessions.length} SESSION REGISTERED</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-1">
             {sessions.map((session, i) => {
               const { id, user_id, user_data, data, created_at, updated_at, ALIPAYJSESSIONID } = session
               const { name, nickname, balance, balanceDisplay } = data

@@ -7,7 +7,8 @@ import Popup from "../components/Popup.jsx"
 export default function Layout() {
   return (
     <div className="h-[100dvh] overflow-hidden bg-black text-white relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-teal-800/60"></div>
+      <div className="absolute inset-0 bg-stone-900"></div>
+      {/* <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-teal-800/60"></div> */}
 
       <div className="relative z-index-999 mb-1">
         <Header />

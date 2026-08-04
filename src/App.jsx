@@ -1,18 +1,18 @@
 import { useState } from "react"
 import { Routes, Route, Navigate, Outlet } from "react-router-dom"
 
-import { useUserStore } from "./store/user.js"
+import { useUserStore } from "./store/user.store.js"
 
 import reactLogo from "./assets/react.svg"
 import viteLogo from "./assets/vite.svg"
 
 import Layout from "./layout/Layout.jsx"
 
-import Login from "./pages/Login.jsx"
-import Dashboard from "./pages/Dashboard.jsx"
+import Login from "./pages/pages.login.jsx"
+import Dashboard from "./pages/pages.dashboard.jsx"
 import Two from "./pages/Two.jsx"
 import Three from "./pages/Three.jsx"
-import Four from "./pages/Four.jsx"
+import Claim from "./pages/pages.claims.jsx"
 import Five from "./pages/Five.jsx"
 
 import "./App.css"
@@ -49,7 +49,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/chats" element={<Two />} />
           <Route path="/monitor" element={<Three />} />
-          <Route path="/claims" element={<Four />} />
+          <Route path="/claims" element={<Claim />} />
           <Route path="/groups" element={<Five />} />
         </Route>
       </Route>
