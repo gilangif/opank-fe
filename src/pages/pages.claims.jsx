@@ -22,40 +22,79 @@ function formatDate(date = new Date()) {
   return `${day}/${month}/${year} ${String(hours).padStart(2, "0")}:${minutes}:${seconds} ${ampm}`
 }
 
+function getPagination(currentPage, totalPages) {
+  const maxVisible = totalPages <= 3 ? 3 : 5
+
+  if (totalPages <= maxVisible) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1)
+  }
+
+  let start = currentPage - Math.floor(maxVisible / 2)
+  let end = currentPage + Math.floor(maxVisible / 2)
+
+  if (start < 1) {
+    start = 1
+    end = maxVisible
+  }
+
+  if (end > totalPages) {
+    end = totalPages
+    start = totalPages - maxVisible + 1
+  }
+
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i)
+}
+
 export default function Claims() {
-  const { logs, getLogs } = useClaimStore((state) => state)
+  const { logs, logsData, getLogs } = useClaimStore((state) => state)
   const { alias, name, room, role } = useUserStore((state) => state)
 
   const [openRow, setOpenRow] = useState(null)
 
   const [searchParams, setSearchParams] = useSearchParams()
+
+  const [page, setPage] = useState(() => searchParams.get("page") || "")
   const [limit, setLimit] = useState(() => searchParams.get("limit") || "")
   const [search, setSearch] = useState(() => searchParams.get("search") || "")
 
+  const pages = getPagination(logsData.page, logsData.total_pages)
+
+  const handleNavigation = (e, page) => {
+    e.preventDefault()
+    setSearchParams({ ...Object.fromEntries(searchParams), page })
+  }
+
   const handleSearch = (e) => {
     e.preventDefault()
-
-    const params = Object.fromEntries(searchParams)
-
-    setSearchParams({ ...params, search })
-    getLogs(params)
+    setSearchParams({ ...Object.fromEntries(searchParams), search })
   }
 
   useEffect(() => {
     const params = {}
 
-    const limit = parseInt(searchParams.get("limit") || "5")
+    const page = parseInt(searchParams.get("page") || "1")
+    const limit = parseInt(searchParams.get("limit") || "50")
     const search = searchParams.get("search") || ""
 
+    if (page) params.page = page
     if (limit) params.limit = limit
     if (search) params.search = search
 
     getLogs(params)
-  }, [])
+  }, [searchParams])
 
   return (
     <>
       <div className="m-2">
+        <div class="flex items-start sm:items-center p-4 mb-2 text-sm text-fg-warning rounded-base bg-warning-soft" role="alert">
+          <svg class="w-4 h-4 me-2 shrink-0 mt-0.5 sm:mt-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
+          <p>
+            <span class="font-medium me-1">Information:</span> Showing page {logsData.page} with {logsData.search ? `search results "${logsData.search}" ` : ""} total {logsData?.total_data} of{" "}
+            {logsData.total_rows} rows.
+          </p>
+        </div>
         <div className="py-3 mb-3">
           <form className="flex items-center max-w-md mx-auto space-x-2" onSubmit={(e) => handleSearch(e)}>
             <label for="simple-search" className="sr-only">
@@ -79,7 +118,6 @@ export default function Claims() {
                 placeholder="Search claims logs..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                required
               />
             </div>
             <button
@@ -102,15 +140,18 @@ export default function Claims() {
                 <th className="p-2">BATCH</th>
                 <th className="p-2">CODE</th>
                 <th className="p-2">STATUS</th>
+                <th className="p-2">CLAIMS</th>
                 <th className="p-2">SENDER</th>
                 <th className="p-2">GROUP</th>
-                <th className="p-2">CLAIMS</th>
                 <th className="p-2">DATE</th>
               </tr>
             </thead>
             <tbody>
               {logs.map((log, i) => {
                 const { claims } = log
+
+                const group = log.group_username ? `https://t.me/${log.group_username}/${log.message_id}` : `https://t.me/c/${String(log.group_id).slice(4)}/${log.message_id}`
+                const total = claims.map(({ order }) => order.claim_amount).reduce((a, b) => a + b, 0)
 
                 return (
                   <Fragment>
@@ -127,9 +168,13 @@ export default function Claims() {
                         )}
                       </td>
                       <td className="px-2 py-3 text-white whitespace-nowrap">{log.status}</td>
+                      <td className="px-2 py-3 text-white whitespace-nowrap">
+                        {log.claims.length} USERS TOTAL RP {new Intl.NumberFormat("id-ID").format(total)}
+                      </td>
                       <td className="px-2 py-3 text-white whitespace-nowrap">{log.sender}</td>
-                      <td className="px-2 py-3 text-white whitespace-nowrap">{log.group_title}</td>
-                      <td className="px-2 py-3 text-white whitespace-nowrap">{log.claims.length} USERS</td>
+                      <td className={`px-2 py-3 ${log.group_username ? "text-yellow-500" : "text-white"} whitespace-nowrap`}>
+                        <a href={group}>{log.group_title}</a>
+                      </td>
                       <td className="px-2 py-3 text-white whitespace-nowrap">{formatDate(log.created_at * 1000)}</td>
                     </tr>
 
@@ -144,13 +189,13 @@ export default function Claims() {
 
                                 return (
                                   <tr className="odd:bg-gray-400/10" key={order.id}>
-                                    <td className={`py-1 px-2 text-white whitespace-nowrap ${user.room === room ? "font-bold text-yellow-500" : ""}`}>{order.claim_name}</td>
-                                    <td className="py-1 px-2 text-white whitespace-nowrap">RP {order.claim_amount}</td>
-                                    <td className="py-1 px-2 text-white whitespace-nowrap">{order.claim_status}</td>
-                                    <td className="py-1 px-2 text-white whitespace-nowrap">{user.alias}</td>
-                                    <td className="py-1 px-2 text-white whitespace-nowrap">{user.room}</td>
-                                    <td className="py-1 px-2 text-white whitespace-nowrap">{user.role}</td>
-                                    <td className="py-1 px-2 text-white whitespace-nowrap">{formatDate(order.created_at * 1000)}</td>
+                                    <td className={`py-2 px-2 text-white whitespace-nowrap ${user.room === room ? "font-bold text-yellow-500" : ""}`}>{order.claim_name}</td>
+                                    <td className="py-2 px-2 text-white whitespace-nowrap">RP {order.claim_amount}</td>
+                                    <td className="py-2 px-2 text-white whitespace-nowrap">{order.claim_status}</td>
+                                    <td className="py-2 px-2 text-white whitespace-nowrap">{user.alias}</td>
+                                    <td className="py-2 px-2 text-white whitespace-nowrap">{user.room}</td>
+                                    <td className="py-2 px-2 text-white whitespace-nowrap">{user.role}</td>
+                                    <td className="py-2 px-2 text-white whitespace-nowrap">{formatDate(order.created_at * 1000)}</td>
                                   </tr>
                                 )
                               })}
@@ -165,6 +210,49 @@ export default function Claims() {
             </tbody>
           </table>
         </div>
+
+        <nav className="my-5 w-100vw flex justify-center">
+          <ul class="flex -space-x-px text-sm">
+            <li>
+              <button
+                class="flex items-center justify-center text-white bg-yellow-900/40 box-border hover:bg-yellow-900 font-medium rounded-s-base text-sm w-9 h-9 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-yellow-900/40"
+                disabled={!logsData.prev_page}
+                onClick={(e) => handleNavigation(e, logsData.prev_page)}
+              >
+                <span class="sr-only">Previous</span>
+                <svg class="w-4 h-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7" />
+                </svg>
+              </button>
+            </li>
+
+            {pages.map((page, i) => {
+              return (
+                <li key={i}>
+                  <button
+                    onClick={(e) => handleNavigation(e, page)}
+                    class={`flex items-center justify-center ${page === logsData.page ? "bg-white/90 text-yellow-900 font-bold" : "bg-yellow-900/40 text-white"}  box-border hover:bg-yellow-900 hover:text-white font-medium text-sm w-9 h-9 focus:outline-none`}
+                  >
+                    {page}
+                  </button>
+                </li>
+              )
+            })}
+
+            <li>
+              <button
+                class="flex items-center justify-center text-white bg-yellow-900/40 box-border hover:bg-yellow-900 font-medium rounded-e-base text-sm w-9 h-9 focus:outline-none none disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-yellow-900/40"
+                disabled={!logsData.next_page}
+                onClick={(e) => handleNavigation(e, logsData.next_page)}
+              >
+                <span class="sr-only">Next</span>
+                <svg class="w-4 h-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7" />
+                </svg>
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
     </>
   )

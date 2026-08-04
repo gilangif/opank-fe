@@ -1,14 +1,12 @@
 import { DEFAULT_IMAGE } from "../../config.js"
 
-
-
 export default function CardSession({ name, alias, role, room, balance, avatar, status, data, setSessionData, setSheetSessionOpen }) {
   const handleUserSheet = () => {
     setSessionData(data)
     setSheetSessionOpen(true)
   }
 
-  const status_bg = status === "invalid" ? "bg-yellow-400/20 hover:bg-yellow-400/80" : status === "Unauthorized" ? "bg-red-900/40 hover:bg-red-900/80" : "hover:bg-gray-100/20"
+  const status_bg = status === "invalid" ? "bg-yellow-400/20 hover:bg-yellow-400/80 active:bg-yellow-400/80" : status === "Unauthorized" ? "bg-red-900/40 hover:bg-red-900/80 active:bg-red-900/80" : "hover:bg-gray-100/20 active:bg-gray-100/20"
 
   return (
     <div className={`flex flex-row h-[76px] p-1 gap-2 ${status_bg} transition duration-700 ease-in-out rounded-lg`}>
@@ -27,14 +25,14 @@ export default function CardSession({ name, alias, role, room, balance, avatar, 
 
       <div className="flex flex-col w-full px-1 justify-around min-w-0">
         <div>
-          <p className="text-[0.65rem] font-bold hover:text-yellow-500 truncate">{name}</p>
-          <p className="text-[10px] font-semibold hover:text-yellow-300">{alias}</p>
+          <p className="text-[0.7rem] font-bold hover:text-yellow-500 truncate">{name}</p>
+          <p className="text-[0.65rem] font-semibold hover:text-yellow-300">{alias}</p>
         </div>
         <div>
-          <p className="text-[10px] hover:text-yellow-300">
+          <p className="text-[0.65rem] hover:text-yellow-300">
             {role} {room}
           </p>
-          <p className="text-[10px] hover:text-yellow-300">RP {balance}</p>
+          <p className="text-[0.65rem] hover:text-yellow-300">RP {balance}</p>
         </div>
       </div>
 
