@@ -1,24 +1,20 @@
 import { create } from "zustand"
-
-import { API_1 } from "../config.js"
 import { useUserStore } from "./user.store.js"
 
-import axios from "axios"
+import api from "../axios.js"
 
 export const useDeviceStore = create((set) => ({
   onlines: [],
   oflines: [],
 
   disconnectSocket: async (username) => {
-    const { accessToken } = useUserStore.getState()
-    const { data } = await axios.post(API_1 + "/socket/disconnect/username", { username }, { headers: { Authorization: `Bearer ${accessToken}` } })
-
+    const { data } = await api.post(API_1 + "/socket/disconnect/username", { username })
     return data
   },
 
   getDevices: async () => {
     const { room, accessToken } = useUserStore.getState()
-    const { data } = await axios.get(API_1 + "/socket/lists", { headers: { Authorization: `Bearer ${accessToken}` } })
+    const { data } = await api.get(API_1 + "/socket/lists")
     const { message, online, offline } = data
 
     const on = online.sort((a, b) => {

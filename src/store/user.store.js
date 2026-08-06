@@ -1,5 +1,7 @@
 import { create } from "zustand"
 
+import api from "../axios.js"
+
 export const useUserStore = create((set) => ({
   id: localStorage.getItem("id") || null,
   name: localStorage.getItem("name") || null,
@@ -10,7 +12,10 @@ export const useUserStore = create((set) => ({
   avatar: localStorage.getItem("avatar") || null,
   accessToken: localStorage.getItem("accessToken") || null,
 
-  login: (id, name, alias, username, role, room, avatar, accessToken) => {
+  login: async (username, password) => {
+    const { data } = await api.post("/auth/users", { username, password })
+    const { id, name, alias, role, room, avatar, accessToken } = data
+
     localStorage.setItem("id", id)
     localStorage.setItem("name", name)
     localStorage.setItem("alias", alias)
@@ -24,14 +29,14 @@ export const useUserStore = create((set) => ({
   },
 
   logout: () => {
-    localStorage.removeItem("id", id)
-    localStorage.removeItem("name", name)
-    localStorage.removeItem("alias", alias)
-    localStorage.removeItem("username", username)
-    localStorage.removeItem("role", role)
-    localStorage.removeItem("room", room)
-    localStorage.removeItem("avatar", avatar)
-    localStorage.removeItem("accessToken", accessToken)
+    localStorage.removeItem("id")
+    localStorage.removeItem("name")
+    localStorage.removeItem("alias")
+    localStorage.removeItem("username")
+    localStorage.removeItem("role")
+    localStorage.removeItem("room")
+    localStorage.removeItem("avatar")
+    localStorage.removeItem("accessToken")
 
     set({ id: null, name: null, alias: null, username: null, role: null, room: null, avatar: null, accessToken: null })
   },

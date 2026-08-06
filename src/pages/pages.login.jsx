@@ -21,9 +21,7 @@ export default function Login() {
       e.preventDefault()
       setNote("")
 
-      const { data } = await axios.post(API_1 + "/auth/users", { username, password })
-
-      login(data.id, data.name, data.alias, data.username, data.role, data.room, data.avatar, data.accessToken)
+      await login(username, password)
 
       navigate("/")
     } catch (error) {
