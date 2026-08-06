@@ -8,13 +8,13 @@ export const useDeviceStore = create((set) => ({
   oflines: [],
 
   disconnectSocket: async (username) => {
-    const { data } = await api.post(API_1 + "/socket/disconnect/username", { username })
+    const { data } = await api.post("/socket/disconnect/username", { username })
     return data
   },
 
   getDevices: async () => {
     const { room, accessToken } = useUserStore.getState()
-    const { data } = await api.get(API_1 + "/socket/lists")
+    const { data } = await api.get("/socket/lists")
     const { message, online, offline } = data
 
     const on = online.sort((a, b) => {
