@@ -20,23 +20,12 @@ function SessionBox({ isOpen, setOpen }) {
   const regex = /GZ00[a-zA-Z0-9]{32}danabizpluginGZ00/g
 
   const handleAddSession = async () => {
-    try {
-      setOpen(false)
+    setOpen(false)
 
-      const { data, message, user } = await addSession(ALIPAYJSESSIONID)
-      console.log("📢[:24]: ", data)
-      console.log("📢[:24]: ", message)
-      console.log("📢[:24]: ", user)
+    const { data, message, user } = await addSession(ALIPAYJSESSIONID)
 
-      showPopup("SESSIONS UPDATED", message)
-
-      await getSessions()
-    } catch (error) {
-      console.log("📢[:33]: ", error)
-      const message = error?.response?.data?.message || error?.message || "UNKNOWN ERROR MESSAGE"
-
-      showPopup("ADD SESSION FAILED", message)
-    }
+    showPopup("SESSIONS UPDATED", message)
+    getSessions()
   }
 
   useEffect(() => {
@@ -65,7 +54,7 @@ function SessionBox({ isOpen, setOpen }) {
 
           <div className="flex flex-1 justify-end rounded-lg px-5 py-1 gap-5">
             <div className={`flex items-center justify-center ${text && ALIPAYJSESSIONID && ALIPAYJSESSIONID !== "NOT FOUND" ? "!block" : "!hidden"}`} onClick={() => handleAddSession()}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="sizw-7 hover:text-green-500">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-8 hover:text-green-500">
                 <path
                   fillRule="evenodd"
                   d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
@@ -79,7 +68,7 @@ function SessionBox({ isOpen, setOpen }) {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className="size-7 hover:text-yellow-500"
+                className="size-8 hover:text-yellow-500"
                 onClick={() => {
                   setText("")
                   setALIPAYJESSIONID("")
@@ -94,7 +83,7 @@ function SessionBox({ isOpen, setOpen }) {
             </div>
 
             <div className="flex items-center justify-center" onClick={() => setOpen(false)}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-7 hover:text-red-500">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-8 hover:text-red-500">
                 <path
                   fillRule="evenodd"
                   d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
@@ -108,7 +97,7 @@ function SessionBox({ isOpen, setOpen }) {
           <textarea
             id="message"
             rows="4"
-            class="w-full h-[40vh]  border border-default-medium  text-black text-sm rounded-base focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-white"
+            className="w-full h-[40vh]  border border-default-medium  text-black text-sm rounded-base focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-white"
             placeholder="Paste sessions here.."
             onChange={(e) => setText(e.target.value)}
             value={text}

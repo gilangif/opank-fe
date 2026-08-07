@@ -7,17 +7,17 @@ export const useSessionStore = create((set) => ({
   sessions: [],
 
   removeSession: async (id) => {
-    const { data } = await axios.post(API_1 + "/sessions/remove", { id })
+    const { data } = await axios.post("/sessions/remove", { id })
     return data
   },
 
   checkSession: async (id) => {
-    const { data } = await api.post(API_1 + "/sessions/update", { id })
+    const { data } = await api.post("/sessions/update", { id })
     return data
   },
 
   addSession: async (ALIPAYJSESSIONID) => {
-    const { data } = await api.post(API_1 + "/sessions/add", { ALIPAYJSESSIONID })
+    const { data } = await api.post("/sessions/add", { ALIPAYJSESSIONID })
     return data
   },
 
