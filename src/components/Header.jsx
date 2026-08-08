@@ -116,7 +116,7 @@ export default function Header() {
   return (
     <>
       <SessionBox isOpen={isOpen} setOpen={setOpen} />
-      <div className="h-full">
+      <div className="h-full rounded-b-base">
         <nav className="after:pointer-events-none">
           <div className="flex items-center justify-between py-4 px-2">
             <div className="flex justify-center items-center gap-3">

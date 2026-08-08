@@ -6,24 +6,36 @@ export const useGroupStore = create((set) => ({
   lists: [],
   listData: {},
 
-  getLists: async () => {
-    const { data } = await api_2.get("/telegram/detail")
+  getLists: async (params) => {
+    const { data } = await api_2.get("/telegram/detail", { params })
     const { page, limit, search, total_rows, total_data, total_pages, prev_page, next_page, rows } = data
 
-    const lists = rows.map((row) => {
-      const invites = row.invites[0].link
-      
+    const live = rows.map(async (row) => {
+      const output = { ...row, data: null }
+
+      for (const invite of row.invites) {
+        try {
+          const { link, code } = invite
+          const { data } = await api_2.post("/telegram/live_detail", { link })
+
+          output.data = data
+        } catch (error) {
+          continue
+        }
+      }
+
+      return output
     })
 
-    set({ lists: rows, listData: { page, limit, search, total_rows, total_data, total_pages, prev_page, next_page } })
+    const lists = await Promise.all(live)
+
+    set({ lists, listData: { page, limit, search, total_rows, total_data, total_pages, prev_page, next_page } })
 
     return data
   },
 
-  getLive: async (link) => {
-    console.log("📢[:19]: ", link)
-    const { data } = await api_2.post("/telegram/live_detail", { link })
-
+  setMark: async (id, mark) => {
+    const { data } = await api_2.post("/telegram/mark", { id, mark })
     return data
   },
 }))

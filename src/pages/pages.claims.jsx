@@ -4,6 +4,8 @@ import { useSearchParams } from "react-router-dom"
 import { useClaimStore } from "../store/claim.store.js"
 import { useUserStore } from "../store/user.store.js"
 
+import getPagination from "../utils/getPagination.js"
+
 function formatDate(date = new Date()) {
   const d = new Date(date)
 
@@ -20,29 +22,6 @@ function formatDate(date = new Date()) {
   hours = hours % 12 || 12
 
   return `${day}/${month}/${year} ${String(hours).padStart(2, "0")}:${minutes}:${seconds} ${ampm}`
-}
-
-function getPagination(currentPage, totalPages) {
-  const maxVisible = totalPages <= 3 ? 3 : 5
-
-  if (totalPages <= maxVisible) {
-    return Array.from({ length: totalPages }, (_, i) => i + 1)
-  }
-
-  let start = currentPage - Math.floor(maxVisible / 2)
-  let end = currentPage + Math.floor(maxVisible / 2)
-
-  if (start < 1) {
-    start = 1
-    end = maxVisible
-  }
-
-  if (end > totalPages) {
-    end = totalPages
-    start = totalPages - maxVisible + 1
-  }
-
-  return Array.from({ length: end - start + 1 }, (_, i) => start + i)
 }
 
 export default function Claims() {
