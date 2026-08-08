@@ -1,6 +1,5 @@
 import { create } from "zustand"
-
-import api from "../axios.js"
+import { api_1 } from "../api.js"
 
 export const useUserStore = create((set) => ({
   id: localStorage.getItem("id") || null,
@@ -13,7 +12,7 @@ export const useUserStore = create((set) => ({
   accessToken: localStorage.getItem("accessToken") || null,
 
   login: async (username, password) => {
-    const { data } = await api.post("/auth/users", { username, password })
+    const { data } = await api_1.post("/auth/users", { username, password })
     const { id, name, alias, role, room, avatar, accessToken } = data
 
     localStorage.setItem("id", id)

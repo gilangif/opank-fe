@@ -13,7 +13,7 @@ import Dashboard from "./pages/pages.dashboard.jsx"
 import Two from "./pages/Two.jsx"
 import Three from "./pages/Three.jsx"
 import Claim from "./pages/pages.claims.jsx"
-import Five from "./pages/Five.jsx"
+import Group from "./pages/pages.group.jsx"
 
 import "./App.css"
 
@@ -50,7 +50,7 @@ function App() {
           <Route path="/chats" element={<Two />} />
           <Route path="/monitor" element={<Three />} />
           <Route path="/claims" element={<Claim />} />
-          <Route path="/groups" element={<Five />} />
+          <Route path="/groups" element={<Group />} />
         </Route>
       </Route>
     </Routes>

@@ -1,29 +1,28 @@
 import { create } from "zustand"
 import { useUserStore } from "./user.store.js"
-
-import api from "../axios.js"
+import { api_1 } from "../api.js"
 
 export const useSessionStore = create((set) => ({
   sessions: [],
 
   removeSession: async (id) => {
-    const { data } = await axios.post("/sessions/remove", { id })
+    const { data } = await api_1.post("/sessions/remove", { id })
     return data
   },
 
   checkSession: async (id) => {
-    const { data } = await api.post("/sessions/update", { id })
+    const { data } = await api_1.post("/sessions/update", { id })
     return data
   },
 
   addSession: async (ALIPAYJSESSIONID) => {
-    const { data } = await api.post("/sessions/add", { ALIPAYJSESSIONID })
+    const { data } = await api_1.post("/sessions/add", { ALIPAYJSESSIONID })
     return data
   },
 
   getSessions: async () => {
     const { room, accessToken } = useUserStore.getState()
-    const { data } = await api.get("/sessions/lists")
+    const { data } = await api_1.get("/sessions/lists")
 
     const sessions = data.sort((a, b) => {
       if (a.data.balanceDisplay.statusText === "Unauthorized" && b.data.balanceDisplay.statusText !== "Unauthorized") return -1
