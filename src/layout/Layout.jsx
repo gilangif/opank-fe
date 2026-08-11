@@ -10,7 +10,7 @@ export default function Layout() {
       <div className="absolute inset-0 bg-stone-900"></div>
       {/* <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-teal-800/60"></div> */}
 
-      <div className="relative z-index-999 mb-1">
+      <div className="relative z-index-10 mb-1">
         <Header />
       </div>
       <div className="relative z-10 flex flex-col h-full">
