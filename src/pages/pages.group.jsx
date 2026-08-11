@@ -74,8 +74,6 @@ export default function Group() {
 
   return (
     <>
-      <button onClick={() => setOpen(true)}>asd</button>
-
       <GroupDialogDetail open={open} setOpen={setOpen} detail={detail} />
 
       <form onSubmit={(e) => handleSearch(e)}>
