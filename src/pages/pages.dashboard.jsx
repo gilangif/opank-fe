@@ -34,6 +34,9 @@ export default function Dashboard() {
     getDevices()
   }, [])
 
+
+  
+
   return (
     <>
       <SheetSession isOpen={isSheetSessionOpen} setOpen={setSheetSessionOpen} data={sessionData} setData={setSessionData} />
