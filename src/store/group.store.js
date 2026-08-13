@@ -66,7 +66,7 @@ export const useGroupStore = create((set, get) => ({
 
     const { username } = useUserStore.getState()
 
-    const caption = `${username} : success ${action} group ${detail.title} (${detail.code})`
+    const caption = `${username} : success ${action} group ${detail.title} (${detail.code}) with account ${account}`
     await api_1.post("/bot/send", { caption })
 
     return details
