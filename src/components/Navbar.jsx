@@ -46,7 +46,7 @@ export default function Navbar() {
             <span className="text-[10px] mt-1 md:mt-0">Claims</span>
           </a>
 
-          <a href="/groups" className="flex flex-col items-center text-white hover:text-yellow-500">
+          <a href="/groups?page=1&group=1" className="flex flex-col items-center text-white hover:text-yellow-500">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
               <path
                 fillRule="evenodd"

@@ -30,12 +30,7 @@ export default function Dashboard() {
     document.title = "OPANK HOME"
 
     getRecommend()
-    getSessions()
-    getDevices()
   }, [])
-
-
-  
 
   return (
     <>

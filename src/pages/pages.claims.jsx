@@ -131,6 +131,8 @@ export default function Claims() {
               {logs.map((log, i) => {
                 const { claims } = log
 
+                const claimed = claims.filter((claim) => claim.order.claim_status === "OK")
+
                 const group = log.group_username ? `https://t.me/${log.group_username}/${log.message_id}` : `https://t.me/c/${String(log.group_id).slice(4)}/${log.message_id}`
                 const total = claims.map(({ order }) => order.claim_amount).reduce((a, b) => a + b, 0)
 
@@ -140,8 +142,8 @@ export default function Claims() {
                       <td className="px-2 py-3 text-white whitespace-nowrap">{log.id}</td>
                       <td className="px-2 py-3 text-white whitespace-nowrap">{log.order_id}</td>
                       <td className="px-2 py-3 text-white whitespace-nowrap">
-                        {log.link !== "???" ? (
-                          <a className="font-bold text-yellow-500" href={log.link}>
+                        {log.code !== "???" ? (
+                          <a className="font-bold text-yellow-500" href={`https://link.dana.id/kaget?c=${log.code}`}>
                             {log.code.toUpperCase()}
                           </a>
                         ) : (
@@ -150,7 +152,7 @@ export default function Claims() {
                       </td>
                       <td className="px-2 py-3 text-white whitespace-nowrap">{log.status}</td>
                       <td className="px-2 py-3 text-white whitespace-nowrap">
-                        {log.claims.length} USERS TOTAL RP {new Intl.NumberFormat("id-ID").format(total)}
+                        {claimed.length} of {claims.length} USERS TOTAL RP {new Intl.NumberFormat("id-ID").format(total)}
                       </td>
                       <td className="px-2 py-3 text-white whitespace-nowrap">{log.sender}</td>
                       <td className={`px-2 py-3 ${log.group_username ? "text-yellow-500" : "text-white"} whitespace-nowrap`}>
