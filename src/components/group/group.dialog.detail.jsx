@@ -72,7 +72,7 @@ export default function GroupDialogDetail({ open, setOpen, detail }) {
 
       <div className="relative w-full max-w-full max-h-[90vh] overflow-y-auto overflow-x-hidden rounded-xl shadow-xl flex flex-col gap-1">
         <div className="p-2">
-          <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default max-h-[30vh]">
+          <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default max-h-[20vh]">
             <SyntaxHighlighter language="javascript" style={oneDark} customStyle={{ margin: 0, padding: "5px", background: "#18181b", fontSize: "0.6rem" }}>
               {JSON.stringify(detail, null, 2)}
             </SyntaxHighlighter>
@@ -117,12 +117,12 @@ export default function GroupDialogDetail({ open, setOpen, detail }) {
 
                   return (
                     <tr className="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-b border-default" key={i}>
-                      <th scope="row" className="px-6 py-2 font-medium text-heading whitespace-nowrap">
+                      <th scope="row" className="px-6 py-1.5 font-medium text-heading whitespace-nowrap">
                         {detail.account.key}
                       </th>
-                      <td className="px-6 py-2">{detail.account.name}</td>
-                      <td className={`px-6 py-2 ${color}`}>{detail.status}</td>
-                      <td className="px-6 py-2">
+                      <td className="px-6 py-1.5">{detail.account.name}</td>
+                      <td className={`px-6 py-1.5 ${color}`}>{detail.status}</td>
+                      <td className="px-6 py-1.5">
                         {!detail.action ? (
                           ""
                         ) : (
