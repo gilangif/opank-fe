@@ -12,6 +12,7 @@ import SheetSession from "../components/dashboard/dashboard.sheet.session.jsx"
 import SheetDevice from "../components/dashboard/dashboard.sheet.device.jsx"
 
 import axios from "axios"
+import { useGroupStore } from "../store/group.store.js"
 
 export default function Dashboard() {
   const [isSheetSessionOpen, setSheetSessionOpen] = useState(false)
@@ -23,10 +24,12 @@ export default function Dashboard() {
   const { sessions, getSessions } = useSessionStore((state) => state)
   const { room, accessToken } = useUserStore((state) => state)
   const { onlines, offlines, getDevices } = useDeviceStore((state) => state)
+  const { recommend, getRecommend } = useGroupStore((state) => state)
 
   useEffect(() => {
     document.title = "OPANK HOME"
 
+    getRecommend()
     getSessions()
     getDevices()
   }, [])
@@ -40,23 +43,9 @@ export default function Dashboard() {
         {/* RECOMMENDED GROUP */}
 
         <div className="flex flex-row gap-2 overflow-x-auto snap-x scrollbar-hide">
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
-          <CardRecommend />
+          {recommend.map((data, i) => {
+            return <CardRecommend key={i} data={data.data} />
+          })}
         </div>
 
         {/* USER SESSION */}

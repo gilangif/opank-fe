@@ -5,6 +5,7 @@ import { api_1, api_2 } from "../api.js"
 export const useGroupStore = create((set, get) => ({
   accounts: [],
   details: [],
+  recommend: [],
   lists: [],
   listData: {},
 
@@ -100,6 +101,34 @@ export const useGroupStore = create((set, get) => ({
     set({ lists, listData: { page, limit, search, total_rows, total_data, total_pages, prev_page, next_page } })
 
     return data
+  },
+
+  getRecommend: async (params) => {
+    const { data } = await api_2.get("/telegram/detail?limit=10&page=1&group=1&mark=0")
+    const { page, limit, search, total_rows, total_data, total_pages, prev_page, next_page, rows } = data
+
+    const live = rows.map(async (row) => {
+      const output = { ...row, data: null }
+
+      for (const invite of row.invites) {
+        try {
+          const { link, code } = invite
+          const { data } = await api_2.post("/telegram/live_detail", { link })
+
+          output.data = data
+        } catch (error) {
+          continue
+        }
+      }
+
+      return output
+    })
+
+    const lists = await Promise.all(live)
+
+    set({ recommend: lists })
+
+    return rows
   },
 
   setMark: async (id, mark) => {

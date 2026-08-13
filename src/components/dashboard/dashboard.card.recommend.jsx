@@ -1,14 +1,35 @@
-export default function CardRecommend() {
+import { useNavigate } from "react-router-dom"
+import { DEFAULT_IMAGE_THUMBS } from "../../config.js"
+
+export default function CardRecommend({ data }) {
+  const { title, member, preview, chats, user, bot, dana, thumb, link, code } = data
+
+  const navigate = useNavigate()
+
+  const containDana = dana || chats.some((chat) => chat.toLowerCase().includes("danakaget") || chat.toLowerCase().includes("orderid"))
+
   return (
     <div className="flex flex-col justify-center items-center snap-start shrink-0 w-[110px] md:w-[200px] gap-1">
-      <img
-        src="https://dthezntil550i.cloudfront.net/qe/latest/qe2001070444226870012184583/1280_960/f0c37cde-9689-4234-a284-a239110170cf.png"
-        alt=""
-        className="w-full h-full aspect-square rounded-lg hover:border-2 hover:border-yellow-500/50"
-      />
-      <div className="w-full">
-        <p className="text-[0.7rem] font-bold truncate hover:text-yellow-500">O P A N K</p>
-        <p className="text-[0.6rem] hover:text-yellow-300">1731 subsribers</p>
+      <div>
+        <img
+          src={thumb || DEFAULT_IMAGE_THUMBS}
+          onError={(e) => (e.currentTarget.src = DEFAULT_IMAGE_THUMBS)}
+          onClick={() => navigate(`/groups?search=${code}`)}
+          className="w-full h-full aspect-square rounded-lg hover:border-2 hover:border-yellow-500/50"
+        />
+
+        <div className="absolute bottom-2 right-2 flex gap-2 flex-wrap justify-end">
+          <div className="flex gap-2">
+            <span className={`px-2.5 py-1 rounded-full bg-green-500/70 text-white text-xs ${preview ? "" : "hidden"}`}>PREVIEW</span>
+            <span className={`px-2.5 py-1 rounded-full bg-blue-500/70 text-white text-xs ${containDana ? "" : "hidden"}`}>CONTAIN DANA</span>
+          </div>
+        </div>
+      </div>
+      <div className="w-full px-1">
+        <p className="text-[0.7rem] font-bold truncate hover:text-yellow-500" onClick={() => navigate(`/groups?search=${code}`)}>
+          {title}
+        </p>
+        <p className="text-[0.6rem] hover:text-yellow-300">{member} subsribers</p>
       </div>
     </div>
   )
