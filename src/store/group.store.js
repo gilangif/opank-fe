@@ -64,6 +64,9 @@ export const useGroupStore = create((set, get) => ({
 
     set({ details: lists })
 
+    const { username } = useUserStore.getState()
+    await api_1.post("/bot/send", { caption: `${username} : success ${action} group ${detail.title} (${detail.code})` })
+
     return details
   },
 
