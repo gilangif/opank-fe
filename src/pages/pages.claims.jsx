@@ -5,24 +5,8 @@ import { useClaimStore } from "../store/claim.store.js"
 import { useUserStore } from "../store/user.store.js"
 
 import getPagination from "../utils/getPagination.js"
+import formatDate from "../utils/formatDate.js"
 
-function formatDate(date = new Date()) {
-  const d = new Date(date)
-
-  const day = String(d.getDate()).padStart(2, "0")
-  const month = String(d.getMonth() + 1).padStart(2, "0")
-  const year = d.getFullYear()
-
-  let hours = d.getHours()
-
-  const minutes = String(d.getMinutes()).padStart(2, "0")
-  const seconds = String(d.getSeconds()).padStart(2, "0")
-
-  const ampm = hours >= 12 ? "PM" : "AM"
-  hours = hours % 12 || 12
-
-  return `${day}/${month}/${year} ${String(hours).padStart(2, "0")}:${minutes}:${seconds} ${ampm}`
-}
 
 export default function Claims() {
   const { logs, logsData, getLogs } = useClaimStore((state) => state)
@@ -67,18 +51,18 @@ export default function Claims() {
   return (
     <>
       <div className="m-2">
-        <div class="flex items-start sm:items-center p-4 mb-2 text-sm text-fg-warning rounded-base bg-warning-soft" role="alert">
-          <svg class="w-4 h-4 me-2 shrink-0 mt-0.5 sm:mt-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        <div className="flex items-start sm:items-center p-4 mb-2 text-sm text-fg-warning rounded-base bg-warning-soft" role="alert">
+          <svg className="w-4 h-4 me-2 shrink-0 mt-0.5 sm:mt-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
           </svg>
           <p>
-            <span class="font-medium me-1">Information:</span> Showing page {logsData.page} with {logsData.search ? `search results "${logsData.search}" ` : ""} total {logsData?.total_data} of{" "}
+            <span className="font-medium me-1">Information:</span> Showing page {logsData.page} with {logsData.search ? `search results "${logsData.search}" ` : ""} total {logsData?.total_data} of{" "}
             {logsData.total_rows} rows.
           </p>
         </div>
         <div className="py-3 mb-3">
           <form className="flex items-center max-w-md mx-auto space-x-2" onSubmit={(e) => handleSearch(e)}>
-            <label for="simple-search" className="sr-only">
+            <label htmlFor="simple-search" className="sr-only">
               Search
             </label>
             <div className="relative w-full">
@@ -86,9 +70,9 @@ export default function Claims() {
                 <svg className="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M8 8v8m0-8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 8a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8-8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 0a4 4 0 0 1-4 4h-1a3 3 0 0 0-3 3"
                   />
                 </svg>
@@ -106,7 +90,7 @@ export default function Claims() {
               className="inline-flex items-center justify-center shrink-0 text-white bg-yellow-900 hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs rounded-base w-10 h-10 focus:outline-none"
             >
               <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+                <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
               </svg>
               <span className="sr-only">Icon description</span>
             </button>
@@ -115,7 +99,7 @@ export default function Claims() {
 
         <div className="relative overflow-x-auto shadow-xs rounded ">
           <table className="w-full text-sm text-left text-xs">
-            <thead class="bg-yellow-900/50 text-white text-xs">
+            <thead className="bg-yellow-900/50 text-white text-xs">
               <tr>
                 <th className="p-2">ID</th>
                 <th className="p-2">BATCH</th>
@@ -137,8 +121,8 @@ export default function Claims() {
                 const total = claims.map(({ order }) => order.claim_amount).reduce((a, b) => a + b, 0)
 
                 return (
-                  <Fragment>
-                    <tr className="even:bg-gray-500/20" key={i} onClick={() => setOpenRow(openRow === log.id ? null : log.id)}>
+                  <Fragment key={i}>
+                    <tr className="even:bg-gray-500/20" onClick={() => setOpenRow(openRow === log.id ? null : log.id)}>
                       <td className="px-2 py-3 text-white whitespace-nowrap">{log.id}</td>
                       <td className="px-2 py-3 text-white whitespace-nowrap">{log.order_id}</td>
                       <td className="px-2 py-3 text-white whitespace-nowrap">
@@ -195,16 +179,16 @@ export default function Claims() {
         </div>
 
         <nav className="my-5 w-100vw flex justify-center">
-          <ul class="flex -space-x-px text-sm">
+          <ul className="flex -space-x-px text-sm">
             <li>
               <button
-                class="flex items-center justify-center text-white bg-yellow-900/40 box-border hover:bg-yellow-900 font-medium rounded-s-base text-sm w-9 h-9 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-yellow-900/40"
+                className="flex items-center justify-center text-white bg-yellow-900/40 box-border hover:bg-yellow-900 font-medium rounded-s-base text-sm w-9 h-9 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-yellow-900/40"
                 disabled={!logsData.prev_page}
                 onClick={(e) => handleNavigation(e, logsData.prev_page)}
               >
-                <span class="sr-only">Previous</span>
-                <svg class="w-4 h-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7" />
+                <span className="sr-only">Previous</span>
+                <svg className="w-4 h-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 19-7-7 7-7" />
                 </svg>
               </button>
             </li>
@@ -214,7 +198,7 @@ export default function Claims() {
                 <li key={i}>
                   <button
                     onClick={(e) => handleNavigation(e, page)}
-                    class={`flex items-center justify-center ${page === logsData.page ? "bg-white/90 text-yellow-900 font-bold" : "bg-yellow-900/40 text-white"}  box-border hover:bg-yellow-900 hover:text-white font-medium text-sm w-9 h-9 focus:outline-none`}
+                    className={`flex items-center justify-center ${page === logsData.page ? "bg-white/90 text-yellow-900 font-bold" : "bg-yellow-900/40 text-white"}  box-border hover:bg-yellow-900 hover:text-white font-medium text-sm w-9 h-9 focus:outline-none`}
                   >
                     {page}
                   </button>
@@ -224,13 +208,13 @@ export default function Claims() {
 
             <li>
               <button
-                class="flex items-center justify-center text-white bg-yellow-900/40 box-border hover:bg-yellow-900 font-medium rounded-e-base text-sm w-9 h-9 focus:outline-none none disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-yellow-900/40"
+                className="flex items-center justify-center text-white bg-yellow-900/40 box-border hover:bg-yellow-900 font-medium rounded-e-base text-sm w-9 h-9 focus:outline-none none disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-yellow-900/40"
                 disabled={!logsData.next_page}
                 onClick={(e) => handleNavigation(e, logsData.next_page)}
               >
-                <span class="sr-only">Next</span>
-                <svg class="w-4 h-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7" />
+                <span className="sr-only">Next</span>
+                <svg className="w-4 h-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m9 5 7 7-7 7" />
                 </svg>
               </button>
             </li>

@@ -102,7 +102,7 @@ export default function Dashboard() {
               </svg>
             </div>
 
-            <p className="text-[0.75rem] font-bold">8 DEVICE CONNECTED</p>
+            <p className="text-[0.75rem] font-bold">{onlines.length} DEVICE CONNECTED</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-2">

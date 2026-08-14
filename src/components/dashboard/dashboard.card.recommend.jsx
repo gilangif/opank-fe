@@ -10,20 +10,19 @@ export default function CardRecommend({ data }) {
 
   return (
     <div className="flex flex-col justify-center items-center snap-start shrink-0 w-[110px] md:w-[200px] gap-1">
-      <div>
+      <div className="relative">
+        <div className="absolute bottom-2 right-2 flex gap-1 flex-wrap justify-end">
+          <div className="flex gap-2">
+            <span className={`px-2.5 py-0.5 rounded-full bg-green-500/70 text-white text-xs ${preview ? "" : "hidden"}`}>PREVIEW</span>
+            <span className={`px-2.5 py-0.5 rounded-full bg-blue-500/70 text-white text-xs ${containDana ? "" : "hidden"}`}>CONTAIN DANA</span>
+          </div>
+        </div>
         <img
           src={thumb || DEFAULT_IMAGE_THUMBS}
           onError={(e) => (e.currentTarget.src = DEFAULT_IMAGE_THUMBS)}
           onClick={() => navigate(`/groups?search=${code}`)}
           className="w-full h-full aspect-square rounded-lg hover:border-2 hover:border-yellow-500/50"
         />
-
-        <div className="absolute bottom-2 right-2 flex gap-2 flex-wrap justify-end">
-          <div className="flex gap-2">
-            <span className={`px-2.5 py-1 rounded-full bg-green-500/70 text-white text-xs ${preview ? "" : "hidden"}`}>PREVIEW</span>
-            <span className={`px-2.5 py-1 rounded-full bg-blue-500/70 text-white text-xs ${containDana ? "" : "hidden"}`}>CONTAIN DANA</span>
-          </div>
-        </div>
       </div>
       <div className="w-full px-1">
         <p className="text-[0.7rem] font-bold truncate hover:text-yellow-500" onClick={() => navigate(`/groups?search=${code}`)}>

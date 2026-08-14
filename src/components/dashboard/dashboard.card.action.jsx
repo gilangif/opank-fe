@@ -28,8 +28,6 @@ export default function CardDevice({ name, alias, role, room, start, socket_id, 
       <div className="flex justify-center items-center rounded-lg aspect-square">
         <img
           src={avatar || DEFAULT_IMAGE}
-          alt=""
-          srcSet=""
           onError={(e) => {
             e.target.onerror = null
             e.target.src = DEFAULT_IMAGE
@@ -47,7 +45,7 @@ export default function CardDevice({ name, alias, role, room, start, socket_id, 
           <p className="text-[10px] hover:text-yellow-300">
             {role} {room} {uid} {mode}
           </p>
-          <p className="text-[10px] hover:text-yellow-300">TIME {duration}s</p>
+          <p className="text-[10px] hover:text-yellow-300">duration {duration}s</p>
         </div>
       </div>
 

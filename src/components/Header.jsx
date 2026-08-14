@@ -7,6 +7,7 @@ import { usePopupStore } from "../store/popup.store.js"
 import { useDeviceStore } from "../store/device.store.js"
 
 import { API_1, DEFAULT_IMAGE_PROFILE } from "../config.js"
+import { useNavigate } from "react-router-dom"
 
 function SessionBox({ isOpen, setOpen }) {
   const [text, setText] = useState("")
@@ -116,6 +117,8 @@ export default function Header() {
   const { sessions, addSession, getSessions } = useSessionStore((state) => state)
   const { onlines, offlines, getDevices } = useDeviceStore((state) => state)
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     getSessions()
     getDevices()
@@ -163,7 +166,7 @@ export default function Header() {
                 </svg>
               </div>
 
-              <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center" onClick={() => navigate("/config")}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                   <path
                     fillRule="evenodd"
