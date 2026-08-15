@@ -9,13 +9,13 @@ import viteLogo from "./assets/vite.svg"
 import Layout from "./layout/Layout.jsx"
 
 import Dashboard from "./pages/pages.dashboard.jsx"
-import Login from "./pages/pages.login.jsx"
-import Claim from "./pages/pages.claims.jsx"
-import Group from "./pages/pages.group.jsx"
+import Monitor from "./pages/pages.monitor.jsx"
 import Config from "./pages/pages.config.jsx"
+import Claim from "./pages/pages.claims.jsx"
+import Login from "./pages/pages.login.jsx"
+import Group from "./pages/pages.group.jsx"
 
 import Two from "./pages/Two.jsx"
-import Three from "./pages/Three.jsx"
 
 import "./App.css"
 
@@ -50,7 +50,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/chats" element={<Two />} />
-          <Route path="/monitor" element={<Three />} />
+          <Route path="/monitor" element={<Monitor />} />
           <Route path="/claims" element={<Claim />} />
           <Route path="/groups" element={<Group />} />
           <Route path="/config" element={<Config />} />
