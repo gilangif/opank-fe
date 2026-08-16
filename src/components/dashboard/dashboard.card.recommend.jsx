@@ -17,16 +17,17 @@ export default function CardRecommend({ data }) {
             <span className={`px-2.5 py-0.5 rounded-full bg-blue-500/70 text-white text-xs ${containDana ? "" : "hidden"}`}>CONTAIN DANA</span>
           </div>
         </div>
-        <img
-          src={thumb || DEFAULT_IMAGE_THUMBS}
-          onError={(e) => (e.currentTarget.src = DEFAULT_IMAGE_THUMBS)}
-          onClick={() => navigate(`/groups?search=${code}`)}
-          className="w-full h-full aspect-square rounded-lg hover:border-2 hover:border-yellow-500/50"
-        />
+        <a href={link}>
+          <img
+            src={thumb || DEFAULT_IMAGE_THUMBS}
+            onError={(e) => (e.currentTarget.src = DEFAULT_IMAGE_THUMBS)}
+            className="w-full h-full aspect-square rounded-lg hover:border-2 hover:border-yellow-500/50"
+          />
+        </a>
       </div>
       <div className="w-full px-1">
         <p className="text-[0.7rem] font-bold truncate hover:text-yellow-500" onClick={() => navigate(`/groups?search=${code}`)}>
-          {title}
+          {title || "UNKNOWN GROUP"}
         </p>
         <p className="text-[0.6rem] hover:text-yellow-300">{member} subsribers</p>
       </div>

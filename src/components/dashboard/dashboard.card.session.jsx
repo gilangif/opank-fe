@@ -6,7 +6,12 @@ export default function CardSession({ name, alias, role, room, balance, avatar, 
     setSheetSessionOpen(true)
   }
 
-  const status_bg = status === "invalid" ? "bg-yellow-400/20 hover:bg-yellow-400/80 active:bg-yellow-400/80" : status === "Unauthorized" ? "bg-red-900/40 hover:bg-red-900/80 active:bg-red-900/80" : "hover:bg-gray-100/20 active:bg-gray-100/20"
+  const status_bg =
+    status === "invalid"
+      ? "bg-yellow-400/20 hover:bg-yellow-400/80 active:bg-yellow-400/80"
+      : status === "Unauthorized"
+        ? "border border-red-900/20 bg-gradient-to-r from-red-950/90 to-red-900/20"
+        : "hover:bg-gray-100/20 active:bg-gray-100/20"
 
   return (
     <div className={`flex flex-row h-[76px] p-1 gap-2 ${status_bg} transition duration-700 ease-in-out rounded-base`}>

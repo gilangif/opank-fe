@@ -111,7 +111,6 @@ function SessionBox({ isOpen, setOpen }) {
 
 export default function Header() {
   const [isOpen, setOpen] = useState(false)
-  const [amount, setAmount] = useState(0)
 
   const { name, alias, username, room, role, avatar } = useUserStore((state) => state)
   const { sessions, addSession, getSessions } = useSessionStore((state) => state)
@@ -123,15 +122,6 @@ export default function Header() {
     getSessions()
     getDevices()
   }, [])
-
-  useEffect(() => {
-    const totalAmount = sessions
-      .filter((session) => session.user_data.room === room)
-      .map((session) => session.data.balance.amount)
-      .reduce((a, b) => a + b, 0)
-
-    setAmount(Number(totalAmount).toLocaleString("id-ID"))
-  }, [sessions])
 
   return (
     <>
@@ -153,9 +143,7 @@ export default function Header() {
               </div>
               <div className="flex flex-col flex-1 justify-center">
                 <h1 className="text-white text-sm font-bold">HI, {name}</h1>
-                <p className="text-gray-300 text-[11px]">
-                  room {room}, balance Rp.{amount}
-                </p>
+                <p className="text-gray-300 text-[11px]">community {room}, role {role}</p>
               </div>
             </div>
 
