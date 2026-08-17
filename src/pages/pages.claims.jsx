@@ -7,9 +7,8 @@ import { useUserStore } from "../store/user.store.js"
 import getPagination from "../utils/getPagination.js"
 import formatDate from "../utils/formatDate.js"
 
-
 export default function Claims() {
-  const { logs, logsData, getLogs } = useClaimStore((state) => state)
+  const { logs, logsData, getClaimLogs } = useClaimStore((state) => state)
   const { alias, name, room, role } = useUserStore((state) => state)
 
   const [openRow, setOpenRow] = useState(null)
@@ -43,7 +42,7 @@ export default function Claims() {
     if (limit) params.limit = limit
     if (search) params.search = search
 
-    getLogs(params)
+    getClaimLogs(params)
 
     document.title = "OPANK CLAIMS LOGS"
   }, [searchParams])

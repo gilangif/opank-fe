@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { DEFAULT_IMAGE_THUMBS } from "../../config.js"
+import { useEffect } from "react"
 
 export default function CardRecommend({ data }) {
   const { title, member, preview, chats, user, bot, dana, thumb, link, code } = data || {}

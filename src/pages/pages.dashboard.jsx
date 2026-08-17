@@ -14,6 +14,8 @@ import SheetDevice from "../components/dashboard/dashboard.sheet.device.jsx"
 import CardBalance from "../components/dashboard/dashboard.card.balance.jsx"
 
 import axios from "axios"
+import getDateRange from "../utils/formatDateRange.js"
+import { useClaimStore } from "../store/claim.store.js"
 
 export default function Dashboard() {
   const [isSheetSessionOpen, setSheetSessionOpen] = useState(false)
@@ -22,9 +24,17 @@ export default function Dashboard() {
   const [sessionData, setSessionData] = useState({})
   const [deviceData, setDeviceData] = useState({})
 
+  const [range, setRange] = useState(() => getDateRange(new Date()))
+
+  const [todayClaim, setTodayClaim] = useState(0)
+  const [todayAmount, setTodayAmount] = useState(0)
+  const [monthClaim, setMonthClaim] = useState(0)
+  const [monthAmount, setMonthAmount] = useState(0)
+
   const [balance, setBalance] = useState(0)
 
   const { sessions, getSessions } = useSessionStore((state) => state)
+  const { statement, getStatement } = useClaimStore((state) => state)
   const { name, room, accessToken } = useUserStore((state) => state)
   const { onlines, offlines, getDevices } = useDeviceStore((state) => state)
   const { recommend, getRecommend } = useGroupStore((state) => state)
@@ -32,6 +42,9 @@ export default function Dashboard() {
   useEffect(() => {
     document.title = "OPANK HOME"
 
+    console.log(range)
+
+    getStatement(range.start, range.end)
     getRecommend()
   }, [])
 
@@ -41,8 +54,24 @@ export default function Dashboard() {
       .map((session) => session.data.balance.amount)
       .reduce((a, b) => a + b, 0)
 
-    setBalance(Number(totalBalance).toLocaleString("id-ID"))
+    setBalance(totalBalance)
   }, [sessions])
+
+  useEffect(() => {
+    if (!statement || !statement.rooms) return
+
+    const { total_claim, total_amount, days } = statement.rooms.data.find((d) => d.room === room)
+
+    const today = days.find((day) => day.date === range.today)
+
+    if (today) {
+      setTodayClaim(today.total_claim)
+      setTodayAmount(today.total_amount)
+    }
+
+    setMonthAmount(total_amount)
+    setMonthClaim(total_claim)
+  }, [statement])
 
   return (
     <>
@@ -58,7 +87,7 @@ export default function Dashboard() {
           })}
         </div>
 
-        <CardBalance name={name} balance={balance} income={"???"} total={"???"} />
+        <CardBalance name={name} balance={balance} todayAmount={todayAmount} todayClaim={todayClaim} monthAmount={monthAmount} monthClaim={monthClaim} />
 
         {/* USER SESSION */}
 

@@ -9,6 +9,7 @@ import viteLogo from "./assets/vite.svg"
 import Layout from "./layout/Layout.jsx"
 
 import Dashboard from "./pages/pages.dashboard.jsx"
+import Statement from "./pages/pages.statement.jsx"
 import Monitor from "./pages/pages.monitor.jsx"
 import Config from "./pages/pages.config.jsx"
 import Claim from "./pages/pages.claims.jsx"
@@ -54,6 +55,7 @@ function App() {
           <Route path="/claims" element={<Claim />} />
           <Route path="/groups" element={<Group />} />
           <Route path="/config" element={<Config />} />
+          <Route path="/statement" element={<Statement />} />
         </Route>
       </Route>
     </Routes>

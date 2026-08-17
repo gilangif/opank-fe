@@ -20,4 +20,10 @@ export const useMonitorStore = create((set) => ({
 
     return data
   },
+
+  setPM2: async (id, action) => {
+    const { data } = await api_1.post("/api/pm2", { id, action })
+
+    return data
+  },
 }))

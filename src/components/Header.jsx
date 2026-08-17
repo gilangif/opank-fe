@@ -112,7 +112,7 @@ function SessionBox({ isOpen, setOpen }) {
 export default function Header() {
   const [isOpen, setOpen] = useState(false)
 
-  const { name, alias, username, room, role, avatar } = useUserStore((state) => state)
+  const { name, alias, username, room, role, avatar, logout } = useUserStore((state) => state)
   const { sessions, addSession, getSessions } = useSessionStore((state) => state)
   const { onlines, offlines, getDevices } = useDeviceStore((state) => state)
 
@@ -143,7 +143,9 @@ export default function Header() {
               </div>
               <div className="flex flex-col flex-1 justify-center">
                 <h1 className="text-white text-sm font-bold">HI, {name}</h1>
-                <p className="text-gray-300 text-[11px]">community {room}, role {role}</p>
+                <p className="text-gray-300 text-[11px]">
+                  community {room}, role {role}
+                </p>
               </div>
             </div>
 
@@ -154,7 +156,7 @@ export default function Header() {
                 </svg>
               </div>
 
-              <div className="flex items-center justify-center" onClick={() => navigate("/config")}>
+              <div className="flex items-center justify-center hover:text-blue-500 active:text-blue-500" onClick={() => navigate("/config")}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                   <path
                     fillRule="evenodd"
@@ -164,11 +166,14 @@ export default function Header() {
                 </svg>
               </div>
 
-              <div className="flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="text-white hover:text-yellow-500 size-6">
+              <div className="flex items-center justify-center hover:text-red-500 active:text-red-500" onClick={() => {
+                logout()
+                navigate("/login")
+              }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
                   <path
                     fillRule="evenodd"
-                    d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                    d="M12 2.25a.75.75 0 0 1 .75.75v9a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM6.166 5.106a.75.75 0 0 1 0 1.06 8.25 8.25 0 1 0 11.668 0 .75.75 0 1 1 1.06-1.06c3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788a.75.75 0 0 1 1.06 0Z"
                     clipRule="evenodd"
                   />
                 </svg>
