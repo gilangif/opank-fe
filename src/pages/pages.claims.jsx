@@ -8,7 +8,7 @@ import getPagination from "../utils/getPagination.js"
 import formatDate from "../utils/formatDate.js"
 
 export default function Claims() {
-  const { logs, logsData, getClaimLogs } = useClaimStore((state) => state)
+  const { orders, orderData, getClaimOrders } = useClaimStore((state) => state)
   const { alias, name, room, role } = useUserStore((state) => state)
 
   const [openRow, setOpenRow] = useState(null)
@@ -19,7 +19,7 @@ export default function Claims() {
   const [limit, setLimit] = useState(() => searchParams.get("limit") || "")
   const [search, setSearch] = useState(() => searchParams.get("search") || "")
 
-  const pages = getPagination(logsData.page, logsData.total_pages)
+  const pages = getPagination(orderData.page, orderData.total_pages)
 
   const handleNavigation = (e, page) => {
     e.preventDefault()
@@ -42,7 +42,7 @@ export default function Claims() {
     if (limit) params.limit = limit
     if (search) params.search = search
 
-    getClaimLogs(params)
+    getClaimOrders(params)
 
     document.title = "OPANK CLAIMS LOGS"
   }, [searchParams])
@@ -55,8 +55,8 @@ export default function Claims() {
             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
           </svg>
           <p>
-            <span className="font-medium me-1">Information:</span> Showing page {logsData.page} with {logsData.search ? `search results "${logsData.search}" ` : ""} total {logsData?.total_data} of{" "}
-            {logsData.total_rows} rows.
+            <span className="font-medium me-1">Information:</span> Showing page {orderData.page} with {orderData.search ? `search results "${orderData.search}" ` : ""} total {orderData?.total_data} of{" "}
+            {orderData.total_rows} rows.
           </p>
         </div>
         <div className="py-3 mb-3">
@@ -111,40 +111,40 @@ export default function Claims() {
               </tr>
             </thead>
             <tbody>
-              {logs.map((log, i) => {
-                const { claims } = log
+              {orders.map((order, i) => {
+                const { claims } = order
 
                 const claimed = claims.filter((claim) => claim.order.claim_status === "OK")
 
-                const group = log.group_username ? `https://t.me/${log.group_username}/${log.message_id}` : `https://t.me/c/${String(log.group_id).slice(4)}/${log.message_id}`
+                const group = order.group_username ? `https://t.me/${order.group_username}/${order.message_id}` : `https://t.me/c/${String(order.group_id).slice(4)}/${order.message_id}`
                 const total = claims.map(({ order }) => order.claim_amount).reduce((a, b) => a + b, 0)
 
                 return (
                   <Fragment key={i}>
-                    <tr className="even:bg-gray-500/20" onClick={() => setOpenRow(openRow === log.id ? null : log.id)}>
-                      <td className="px-2 py-3 text-white whitespace-nowrap">{log.id}</td>
-                      <td className="px-2 py-3 text-white whitespace-nowrap">{log.order_id}</td>
+                    <tr className="even:bg-gray-500/20" onClick={() => setOpenRow(openRow === order.id ? null : order.id)}>
+                      <td className="px-2 py-3 text-white whitespace-nowrap">{order.id}</td>
+                      <td className="px-2 py-3 text-white whitespace-nowrap">{order.order_id}</td>
                       <td className="px-2 py-3 text-white whitespace-nowrap">
-                        {log.code !== "???" ? (
-                          <a className="font-bold text-yellow-500" href={`https://link.dana.id/kaget?c=${log.code}`}>
-                            {log.code.toUpperCase()}
+                        {order.code !== "???" ? (
+                          <a className="font-bold text-yellow-500" href={`https://link.dana.id/kaget?c=${order.code}`}>
+                            {order.code.toUpperCase()}
                           </a>
                         ) : (
-                          log.code.toUpperCase()
+                          order.code.toUpperCase()
                         )}
                       </td>
-                      <td className="px-2 py-3 text-white whitespace-nowrap">{log.status}</td>
+                      <td className="px-2 py-3 text-white whitespace-nowrap">{order.status}</td>
                       <td className="px-2 py-3 text-white whitespace-nowrap">
                         {claimed.length} of {claims.length} USERS TOTAL RP {new Intl.NumberFormat("id-ID").format(total)}
                       </td>
-                      <td className="px-2 py-3 text-white whitespace-nowrap">{log.sender}</td>
-                      <td className={`px-2 py-3 ${log.group_username ? "text-yellow-500" : "text-white"} whitespace-nowrap`}>
-                        <a href={group}>{log.group_title}</a>
+                      <td className="px-2 py-3 text-white whitespace-nowrap">{order.sender}</td>
+                      <td className={`px-2 py-3 ${order.group_username ? "text-yellow-500" : "text-white"} whitespace-nowrap`}>
+                        <a href={group}>{order.group_title}</a>
                       </td>
-                      <td className="px-2 py-3 text-white whitespace-nowrap">{formatDate(log.created_at * 1000)}</td>
+                      <td className="px-2 py-3 text-white whitespace-nowrap">{formatDate(order.created_at * 1000)}</td>
                     </tr>
 
-                    {log.id === openRow && (
+                    {order.id === openRow && (
                       <tr className="w-100">
                         <td />
                         <td colSpan="8" className="p-2">
@@ -182,8 +182,8 @@ export default function Claims() {
             <li>
               <button
                 className="flex items-center justify-center text-white bg-yellow-900/40 box-border hover:bg-yellow-900 font-medium rounded-s-base text-sm w-9 h-9 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-yellow-900/40"
-                disabled={!logsData.prev_page}
-                onClick={(e) => handleNavigation(e, logsData.prev_page)}
+                disabled={!orderData.prev_page}
+                onClick={(e) => handleNavigation(e, orderData.prev_page)}
               >
                 <span className="sr-only">Previous</span>
                 <svg className="w-4 h-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -197,7 +197,7 @@ export default function Claims() {
                 <li key={i}>
                   <button
                     onClick={(e) => handleNavigation(e, page)}
-                    className={`flex items-center justify-center ${page === logsData.page ? "bg-white/90 text-yellow-900 font-bold" : "bg-yellow-900/40 text-white"}  box-border hover:bg-yellow-900 hover:text-white font-medium text-sm w-9 h-9 focus:outline-none`}
+                    className={`flex items-center justify-center ${page === orderData.page ? "bg-white/90 text-yellow-900 font-bold" : "bg-yellow-900/40 text-white"}  box-border hover:bg-yellow-900 hover:text-white font-medium text-sm w-9 h-9 focus:outline-none`}
                   >
                     {page}
                   </button>
@@ -208,8 +208,8 @@ export default function Claims() {
             <li>
               <button
                 className="flex items-center justify-center text-white bg-yellow-900/40 box-border hover:bg-yellow-900 font-medium rounded-e-base text-sm w-9 h-9 focus:outline-none none disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-yellow-900/40"
-                disabled={!logsData.next_page}
-                onClick={(e) => handleNavigation(e, logsData.next_page)}
+                disabled={!orderData.next_page}
+                onClick={(e) => handleNavigation(e, orderData.next_page)}
               >
                 <span className="sr-only">Next</span>
                 <svg className="w-4 h-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">

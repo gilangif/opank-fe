@@ -5,6 +5,7 @@ import { usePopupStore } from "../store/popup.store.js"
 import { useSessionStore } from "../store/session.store.js"
 import { useDeviceStore } from "../store/device.store.js"
 import { useGroupStore } from "../store/group.store.js"
+import { useClaimStore } from "../store/claim.store.js"
 
 import CardRecommend from "../components/dashboard/dashboard.card.recommend.jsx"
 import CardSession from "../components/dashboard/dashboard.card.session.jsx"
@@ -12,10 +13,9 @@ import CardDevice from "../components/dashboard/dashboard.card.action.jsx"
 import SheetSession from "../components/dashboard/dashboard.sheet.session.jsx"
 import SheetDevice from "../components/dashboard/dashboard.sheet.device.jsx"
 import CardBalance from "../components/dashboard/dashboard.card.balance.jsx"
+import getDateRange from "../utils/formatDateRange.js"
 
 import axios from "axios"
-import getDateRange from "../utils/formatDateRange.js"
-import { useClaimStore } from "../store/claim.store.js"
 
 export default function Dashboard() {
   const [isSheetSessionOpen, setSheetSessionOpen] = useState(false)
@@ -41,8 +41,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     document.title = "OPANK HOME"
-
-    console.log(range)
 
     getStatement(range.start, range.end)
     getRecommend()
