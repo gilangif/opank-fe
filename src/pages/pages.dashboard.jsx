@@ -48,8 +48,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     const totalBalance = sessions
-      .filter((session) => session.user_data.room === room)
-      .map((session) => session.data.balance.amount)
+      .filter((session) => session?.user_data?.room === room)
+      .map((session) => session?.data?.balance?.amount)
       .reduce((a, b) => a + b, 0)
 
     setBalance(totalBalance)
@@ -58,9 +58,9 @@ export default function Dashboard() {
   useEffect(() => {
     if (!statement || !statement.rooms) return
 
-    const { total_claim, total_amount, days } = statement.rooms.data.find((d) => d.room === room)
+    const { total_claim, total_amount, days } = statement?.rooms?.data.find((d) => d.room === room) || {}
 
-    const today = days.find((day) => day.date === range.today)
+    const today = days?.find((day) => day.date === range.today)
 
     if (today) {
       setTodayClaim(today.total_claim)
